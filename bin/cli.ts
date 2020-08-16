@@ -14,7 +14,7 @@ declare global {
 const main = () => {
   program
     .usage('[options] [file]')
-    .description('convert psedo code to flowchart. if input file is not given, use stdin instead.')
+    .description('convert pseudo code to flowchart. if input file is not given, use stdin instead.')
     .option('-o --output-file <file>', 'output file name (if not given, use stdout).')
 
   program.parse(process.argv);

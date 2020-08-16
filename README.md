@@ -1,35 +1,29 @@
 # Tefcha
-**NOTE:** **THIS IS UNDER DEVELOPMENT. ANYTHING CAN BE CHANGED.**
+CLI tool of "Tefcha".
+Convert text to flowchart.
 
-Text to Flowchart.
+## See
 
-![./img/sample.gif](./img/sample.gif)
+[Tefcha](https://github.com/hrhr49/tefcha)
 
-## Demo
+## Installation
 
-[https://hrhr49.github.io/tefcha/demo](https://hrhr49.github.io/tefcha/demo)
-
-## Feature
-* Convert pseudo code to flowchart image.
-
-### Supported
-Only these features are supported for now
-* if, elif, else statements
-* while, do-while statements
-* break, continue statement.
-
-### Not Supported (for now)
-* for statement
-* swich-case statement
-* return statement
-
-## Note
-
-## Reserved Word
-* if, elif, else, while, do, for, continue, break, switch, case, pass
+```
+npm install -g tefcha-cli
+```
 
 ## Usage
-TODO
+
+```
+Usage: tefcha [options] [file]
+
+convert pseudo code to flowchart. if input file is not given, use stdin instead.
+
+Options:
+  -o --output-file <file>  output file name (if not given, use stdout).
+  -h, --help               display help for command
+```
+
 
 ## Author
 
