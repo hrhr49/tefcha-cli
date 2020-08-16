@@ -1,0 +1,24 @@
+{
+  "name": "tefcha-cli",
+  "version": "0.0.1",
+  "description": "A CLI Tool to Convert Text to Flowchart.",
+  "bin": {
+    "tefcha": "cli.js"
+  },
+  "scripts": {
+    "build": "parcel build --target node bin/cli.ts"
+  },
+  "author": "hrhr49 <hiro49410@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "commander": "^6.0.0",
+    "puppeteer": "^5.2.1",
+    "tefcha": "^0.0.2"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.12.4",
+    "parcel-plugin-shebang": "^1.2.9",
+    "typescript": "^3.9.7"
+  }
+}
