@@ -11,6 +11,7 @@
     "bin/"
   ],
   "scripts": {
+    "copy-js": "cross-env cp node_modules/tefcha/umd/tefcha.js bin/",
     "build": "parcel build --target node bin/cli.ts --out-dir bin"
   },
   "author": "hrhr49 <hiro49410@gmail.com>",
@@ -25,6 +26,7 @@
     "@types/chalk": "^2.2.0",
     "@types/commander": "^2.12.2",
     "@types/puppeteer": "^3.0.1",
+    "cross-env": "^7.0.2",
     "parcel-bundler": "^1.12.4",
     "parcel-plugin-shebang": "^1.2.9",
     "typescript": "^3.9.7"
