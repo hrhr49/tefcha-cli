@@ -45,7 +45,7 @@ const launch = async (src: string, outputFile: string, extension: string, config
           '.jpeg': 'jpeg',
         }[extension],
       });
-    } catch(e) {
+    } catch (e) {
       console.error(e);
     }
   } else {
@@ -88,14 +88,16 @@ const main = () => {
     config = JSON.parse(fs.readFileSync(configFile).toString());
   }
 
-  const extension = path.extname(outputFile);
+  let extension = '';
   const supportedExtensions = ['.svg', '.png', '.jpg', '.jpeg'];
 
-  if (outputFile && !supportedExtensions.includes(extension)) {
-    console.error(chalk.red(`extension ${extension} is not supported. ${supportedExtensions.join(', ')} are supported.`));
-    return;
+  if (outputFile) {
+    extension = path.extname(outputFile);
+    if (!supportedExtensions.includes(extension)) {
+      console.error(chalk.red(`extension ${extension} is not supported. ${supportedExtensions.join(', ')} are supported.`));
+      return;
+    }
   }
-
   launch(src, outputFile, extension, config);
 }
 
