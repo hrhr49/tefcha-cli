@@ -17,10 +17,11 @@ npm install -g tefcha-cli
 ```
 Usage: tefcha [options] [file]
 
-convert pseudo code to flowchart. if input file is not given, use stdin instead.
+Convert pseudo code to flowchart. If input file is not given, use stdin instead.
 
 Options:
-  -o --output-file <file>  output file name (if not given, use stdout).
+  -o --output-file <file>  Output file name. (.svg, .png, .jpg are available. If it is not given, output svg text to stdout).
+  -c --config-file <file>  Optional: JSON configuration file for tefcha.
   -h, --help               display help for command
 ```
 
