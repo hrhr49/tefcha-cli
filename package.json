@@ -1,6 +1,6 @@
 {
   "name": "tefcha-cli",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "A CLI Tool to Convert Text to Flowchart.",
   "bin": {
     "tefcha": "bin/cli.js"
@@ -12,7 +12,7 @@
   ],
   "scripts": {
     "copy-js": "cross-env cp node_modules/tefcha/umd/tefcha.js bin/",
-    "prepublishOnly": "npm-run-all clean build",
+    "prepublishOnly": "npm-run-all copy-js clean build",
     "clean": "rimraf bin/cli.js bin/cli.js.map",
     "build": "parcel build --target node bin/cli.ts --out-dir bin"
   },
