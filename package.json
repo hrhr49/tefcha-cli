@@ -1,6 +1,6 @@
 {
   "name": "tefcha-cli",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "A CLI Tool to Convert Text to Flowchart.",
   "bin": {
     "tefcha": "bin/cli.js"
@@ -22,7 +22,7 @@
     "chalk": "^4.1.0",
     "commander": "^6.0.0",
     "puppeteer": "^5.2.1",
-    "tefcha": "^0.0.3"
+    "tefcha": "^0.0.4"
   },
   "devDependencies": {
     "@types/chalk": "^2.2.0",
