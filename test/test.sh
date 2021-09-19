@@ -46,7 +46,8 @@ else
   exit 1
 fi
 
-node bin/cli.js -e svg test/sample-input.txt > tmp/output-from-stdout.svg \
+node bin/cli.js test/sample-input.txt > tmp/output-from-stdout.svg \
+&& node bin/cli.js -e svg test/sample-input.txt > tmp/output2-from-stdout.svg \
 && node bin/cli.js -e png test/sample-input.txt > tmp/output-from-stdout.png \
 && node bin/cli.js -e jpg test/sample-input.txt > tmp/output-from-stdout.jpg \
 && node bin/cli.js -e jpeg test/sample-input.txt > tmp/output-from-stdout.jpeg
@@ -57,6 +58,12 @@ if [ "$?" -ne 0 ]; then
 fi
 
 if [[ "$(file tmp/output-from-stdout.svg)" =~ .*SVG.* ]]; then
+  echo 'ok'
+else
+  echo 'faild'
+  exit 1
+fi
+if [[ "$(file tmp/output2-from-stdout.svg)" =~ .*SVG.* ]]; then
   echo 'ok'
 else
   echo 'faild'

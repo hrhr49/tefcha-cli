@@ -114,8 +114,8 @@ const main = () => {
   }
 
   if (!extension) {
-    console.error('output extension is not specified');
-    return;
+    // use default extension 'svg'
+    extension = 'svg';
   }
 
   if (!isOutputExtension(extension)) {
