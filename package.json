@@ -14,7 +14,8 @@
     "copy-js": "cross-env cp node_modules/tefcha/umd/tefcha.js bin/",
     "prepublishOnly": "npm-run-all copy-js clean build",
     "clean": "rimraf bin/cli.js bin/cli.js.map",
-    "build": "parcel build --target node bin/cli.ts --out-dir bin"
+    "build": "parcel build --target node bin/cli.ts --out-dir bin",
+    "test": "yarn prepublishOnly && ./test/test.sh"
   },
   "author": "hrhr49 <hiro49410@gmail.com>",
   "license": "MIT",

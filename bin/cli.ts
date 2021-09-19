@@ -11,7 +11,14 @@ declare global {
   }
 }
 
-const launch = async (src: string, outputFile: string, extension: string, config: any) => {
+const OUTPUT_EXTENSIONS = ['svg', 'png', 'jpg', 'jpeg'] as const;
+type OutputExtension = (typeof OUTPUT_EXTENSIONS)[number];
+
+const isOutputExtension = (obj: any): obj is OutputExtension => {
+  return OUTPUT_EXTENSIONS.includes(obj);
+};
+
+const launch = async (src: string, outputFile: string, extension: OutputExtension, config: any) => {
   const browser = await puppeteer.launch({
     // headless: false,
   });
@@ -34,17 +41,27 @@ const launch = async (src: string, outputFile: string, extension: string, config
     console.error(chalk.red(result.message))
   }
 
-  if (outputFile && ['.png', '.jpg', '.jpeg'].includes(extension)) {
+  if (['png', 'jpg', 'jpeg'].includes(extension)) {
     try {
       const svgElement = (await page.$$('svg'))[0];
-      await svgElement.screenshot({
-        path: outputFile,
-        type: {
-          '.png': 'png',
-          '.jpg': 'jpeg',
-          '.jpeg': 'jpeg',
-        }[extension],
-      });
+      if (outputFile) {
+        await svgElement.screenshot({
+          path: outputFile,
+          type: extension,
+        });
+      } else {
+        const imageBuffer = await svgElement.screenshot({
+          type: extension,
+        });
+        // imageBuffer should be 'Buffer' type
+        if (typeof imageBuffer === 'string'
+            || typeof imageBuffer === 'undefined'
+           ) {
+          throw `invalid image buffer type: ${typeof imageBuffer}`;
+        }
+        // NOTE: 1 means stdout
+        fs.writeFileSync(1, imageBuffer, 'binary');
+      }
     } catch (e) {
       console.error(e);
     }
@@ -63,13 +80,16 @@ const main = () => {
   program
     .usage('[options] [file]')
     .description('Convert pseudo code to flowchart. If input file is not given, use stdin instead.')
-    .option('-o --output-file <file>', 'Output file name. (.svg, .png, .jpg are available. If it is not given, output svg text to stdout).')
+    .option('-o --output-file <file>', `Output file name. (${OUTPUT_EXTENSIONS.join(', ')} are available. If it is not given, output svg text to stdout).`)
     .option('-c --config-file <file>', 'Optional: JSON configuration file for tefcha.')
+    .option('-e --extension <extension>', `Optional: specify output format (${OUTPUT_EXTENSIONS.join(', ')})`);
 
   program.parse(process.argv);
   const inputFile = program.args[0];
   const outputFile = program.outputFile;
   const configFile = program.configFile;
+
+  let extension = program.extension;
 
   if (inputFile && !fs.existsSync(inputFile)) {
     console.error(chalk.red(`Cannot find input file "${inputFile}"`));
@@ -88,15 +108,24 @@ const main = () => {
     config = JSON.parse(fs.readFileSync(configFile).toString());
   }
 
-  let extension = '';
-  const supportedExtensions = ['.svg', '.png', '.jpg', '.jpeg'];
+  if (!extension && outputFile) {
+    // remove '.' (.svg -> svg)
+    extension = path.extname(outputFile).replace(/^\./, '');
+  }
 
-  if (outputFile) {
-    extension = path.extname(outputFile);
-    if (!supportedExtensions.includes(extension)) {
-      console.error(chalk.red(`extension ${extension} is not supported. ${supportedExtensions.join(', ')} are supported.`));
-      return;
-    }
+  if (!extension) {
+    console.error('output extension is not specified');
+    return;
+  }
+
+  if (!isOutputExtension(extension)) {
+    console.error(chalk.red(`extension ${extension} is not supported. ${OUTPUT_EXTENSIONS.join(', ')} are supported.`));
+    return;
+  }
+
+  if (extension === 'jpg') {
+    // for puppeteer
+    extension = 'jpeg';
   }
   launch(src, outputFile, extension, config);
 }
