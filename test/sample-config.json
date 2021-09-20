@@ -1,0 +1,75 @@
+{
+  "src": {
+    "indentStr": "  ",
+    "commentStr": "#"
+  },
+  "flowchart": {
+    "marginX": 35,
+    "marginY": 35,
+    "stepX": 24,
+    "stepY": 24,
+    "hlineMargin": 24,
+    "backgroundColor": "white"
+  },
+  "rect": {
+    "padX": 12,
+    "padY": 8,
+    "attrs": {
+      "stroke": "black",
+      "fill": "none",
+      "stroke-width": "2px"
+    }
+  },
+  "frame": {
+    "attrs": {
+      "stroke": "black",
+      "fill": "none",
+      "stroke-dasharray": "2",
+      "stroke-width": "2px"
+    }
+  },
+  "diamond": {
+    "aspectRatio": 0.75,
+    "attrs": {
+      "stroke": "black",
+      "fill": "none",
+      "stroke-width": "2px"
+    }
+  },
+  "path": {
+    "attrs": {
+      "stroke": "black",
+      "fill": "none",
+      "stroke-linecap": "square",
+      "stroke-width": "2px"
+    }
+  },
+  "arrowHead": {
+    "size": 9,
+    "attrs": {
+      "stroke": "black",
+      "fill": "black",
+      "stroke-width": "0px"
+    }
+  },
+  "text": {
+    "attrs": {
+      "stroke": "black",
+      "fill": "black",
+      "font-size": "14px",
+      "stroke-width": "0"
+    }
+  },
+  "label": {
+    "yesText": "Y",
+    "noText": "N",
+    "marginX": 4,
+    "marginY": 4,
+    "attrs": {
+      "stroke": "black",
+      "fill": "black",
+      "font-size": "10px",
+      "font-weight": "lighter"
+    }
+  }
+}
