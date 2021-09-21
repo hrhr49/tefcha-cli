@@ -1,5 +1,6 @@
 if hoge
-  fuga
+  fuga\nfuga\nfuga\nfuga\
+  fuga\nfuga\nfuga\nfuga
 else
   piyo
 
