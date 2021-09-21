@@ -53,13 +53,23 @@ class EscapedText {
 
 const attrsToString = (attrs: any): string => {
   return Object.entries(attrs || {})
-  .map(([k, v]: [string, any]) => `${k}="${new EscapedText(String(v))}"`)
+  .map(([k, v]: [string, any]) => `${new EscapedText(k)}="${new EscapedText(String(v))}"`)
   .join(' ');
 };
 
+type TagName = (
+    'defs'
+  | 'g'
+  | 'marker'
+  | 'path'
+  | 'polygon'
+  | 'rect'
+  | 'svg'
+);
+
 class SVGElement {
   constructor (
-    private readonly tagName: string,
+    private readonly tagName: TagName,
     private readonly attrs: any,
     private readonly children: (SVGElement | RawText | EscapedText)[],
   ) {
@@ -116,7 +126,7 @@ class SvgRenderer {
   }
 
   el = (
-    tagName: string,
+    tagName: TagName,
     attrs?: any,
     ...children: (SVGElement | RawText | EscapedText)[]
   ): SVGElement => {
@@ -410,3 +420,4 @@ class OpenTypeSharpRenderer implements BaseRenderer {
 export {
   OpenTypeSharpRenderer,
 }
+
