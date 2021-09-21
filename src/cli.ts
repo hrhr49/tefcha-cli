@@ -10,6 +10,7 @@ import {
     await main(args);
   } catch (e) {
     console.error(e);
-    throw e;
+    process.exitCode = 1;
+    // throw e;
   }
 })();
