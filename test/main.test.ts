@@ -31,6 +31,8 @@ test('cli argument parser', () => {
   expect(parseArgs(['', '', '-e', 'hoge']).extension).toBe('hoge');
   expect(parseArgs(['', '', '--disable-browser']).disableBrowser).toBe(true);
   expect(parseArgs(['', '', '-d']).disableBrowser).toBe(true);
+  expect(parseArgs(['', '', '--font-file', 'hoge']).fontFile).toEqual('hoge');
+  expect(parseArgs(['', '', '-f', 'hoge']).fontFile).toEqual('hoge');
 });
 
 test('no extension -> output SVG', () => {
@@ -143,3 +145,20 @@ test('not supported extension', () => {
   ).rejects.toMatch('hoge is not supported.');
 });
 
+test('not existing font file', () => {
+  return expect(
+    main({
+      ...VALID_ARGS,
+      fontFile: './not-existsing-file',
+    })
+  ).rejects.toMatch('Cannot find font file');
+});
+
+test('font file is available only --disable-browser', () => {
+  return expect(
+    main({
+      ...VALID_ARGS,
+      fontFile: './bin/NotoSansCJKjp-Regular.otf',
+    })
+  ).rejects.toMatch('--disable-browser');
+});

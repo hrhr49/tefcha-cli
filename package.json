@@ -17,7 +17,7 @@
     "prepublishOnly": "npm-run-all clean copy:* build",
     "clean": "rimraf bin/*",
     "build": "tsc",
-    "test:cli": "./test/test.sh",
+    "test:cli": "cross-env NODE_ENV=develop ./test/test.sh",
     "test:jest": "cross-env NODE_ENV=develop jest",
     "test": "npm-run-all clean copy:* build test:*",
     "preinstall": "typesync || :"

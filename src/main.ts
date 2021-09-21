@@ -37,6 +37,7 @@ interface CommandArguments {
   configFile?: string;
   extension?: string;
   disableBrowser?: boolean;
+  fontFile?: string;
 };
 
 const parseArgs = (argv=process.argv): CommandArguments => {
@@ -49,7 +50,8 @@ const parseArgs = (argv=process.argv): CommandArguments => {
     .option('-o --output-file <file>', `Output file name. (${OUTPUT_EXTENSIONS.join(', ')} are available. If it is not given, output svg text to stdout).`)
     .option('-c --config-file <file>', 'Optional: JSON configuration file for tefcha.')
     .option('-e --extension <extension>', `Optional: specify output format (${OUTPUT_EXTENSIONS.join(', ')})`)
-    .option('-d --disable-browser', `Optional: browser(pupeteer) is not used. NOTE: If output is SVG, text is converted to <path> tag.`);
+    .option('-d --disable-browser', `Optional: browser(pupeteer) is not used. NOTE: If output is SVG, text is converted to <path> tag.`)
+    .option('-f --font-file <file>', `Optional: path of font file (wof, otf, ttf). NOTE: this option is available iif --disable-browser option is specified.`);
   program.parse(argv);
 
   return {
@@ -58,6 +60,7 @@ const parseArgs = (argv=process.argv): CommandArguments => {
     configFile: program.configFile,
     extension: program.extension,
     disableBrowser: program.disableBrowser,
+    fontFile: program.fontFile,
   };
 };
 
@@ -67,12 +70,19 @@ const main = async ({
   configFile,
   extension: rawExtension,
   disableBrowser,
+  fontFile,
 }: CommandArguments): Promise<Buffer> => {
   if (inputFile && !fs.existsSync(inputFile)) {
     throw `Cannot find input file "${inputFile}"`;
   }
   if (configFile && !fs.existsSync(configFile)) {
     throw `Cannot find config file "${configFile}"`;
+  }
+  if (fontFile && !fs.existsSync(fontFile)) {
+    throw `Cannot find font file "${fontFile}"`;
+  }
+  if (fontFile && !disableBrowser) {
+    throw `-f or --font-file option is available if --disable-browser option is specified.`;
   }
 
   // NOTE: input file '0' means stdin.
@@ -90,7 +100,7 @@ const main = async ({
   }
 
   const renderer = disableBrowser 
-    ? new OpenTypeSharpRenderer({src, config, font: opentype.loadSync(DEFAULT_FONT_PATH)})
+    ? new OpenTypeSharpRenderer({src, config, font: opentype.loadSync(fontFile || DEFAULT_FONT_PATH)})
     : new PuppeteerRenderer({src, config});
 
   let resultBuffer: Buffer;

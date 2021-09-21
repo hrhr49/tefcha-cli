@@ -9,7 +9,11 @@ import {
     const args = parseArgs();
     await main(args);
   } catch (e) {
-    console.error(e.message);
+    if (process.env.NODE_ENV === 'develop') {
+      console.error(e);
+    } else {
+      console.error(typeof e === 'string' ? e : e.message);
+    }
     process.exitCode = 1;
     // throw e;
   }
