@@ -129,10 +129,23 @@ class SvgRenderer {
     const _attrs = {...attrs, x: (attrs.x || 0)};
     const fontSize = Number(_attrs['font-size']) || 14;
 
-    const { x1, y1, x2, y2 } = this.font
-      .getPath(text+'\n', 0, 0, fontSize)
-      .getBoundingBox();
-    return {w: x2 - x1, h: y2 - y1};
+    let minX1 = Infinity,
+      minY1 = Infinity,
+      maxX2 = -Infinity,
+      maxY2 = -Infinity;
+
+    text.split(/\\n/).forEach((line, idx) => {
+      const { x1, y1, x2, y2 } = this.font
+        .getPath(line+'\n', 0, idx * fontSize, fontSize)
+        .getBoundingBox();
+      minX1 = Math.min(minX1, x1);
+      minY1 = Math.min(minY1, y1);
+      maxX2 = Math.max(maxX2, x2);
+      maxY2 = Math.max(maxY2, y2);
+    });
+
+    // console.error({minX1,minY1,maxX2,maxY2});
+    return {w: maxX2 - minX1, h: maxY2 - minY1};
   }
 
   renderShape = ({
@@ -199,13 +212,18 @@ class SvgRenderer {
       throw 'font-size of text and label should be specified "px" uinit';
     }
 
-    const {h} = this.measureText(shape.content, attrs);
-    const ret = this.font
-      .getPath(shape.content, x, y+h, fontSize)
-      .toSVG(2)
-      .replace('<path', `<path ${attrsToString(attrs)} `);
+    // const {h} = this.measureText(shape.content, attrs);
+    const pathList: string[] = [];
 
-    return new RawText(ret);
+    shape.content.split(/\\n/).forEach((line, idx) => {
+      const pathStr = this.font
+        .getPath(line, x, y + (idx + 1) * fontSize, fontSize)
+        .toSVG(2)
+        .replace('<path', `<path ${attrsToString(attrs)} `);
+      pathList.push(pathStr);
+    });
+
+    return new RawText(pathList.join(''));
   }
 
   renderRect = ({
