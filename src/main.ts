@@ -51,7 +51,7 @@ const parseArgs = (argv=process.argv): CommandArguments => {
     .option('-c --config-file <file>', 'Optional: JSON configuration file for tefcha.')
     .option('-e --extension <extension>', `Optional: specify output format (${OUTPUT_EXTENSIONS.join(', ')})`)
     .option('-d --disable-browser', `Optional: browser(pupeteer) is not used. NOTE: If output is SVG, text is converted to <path> tag.`)
-    .option('-f --font-file <file>', `Optional: path of font file (wof, otf, ttf). NOTE: this option is available iif --disable-browser option is specified.`);
+    .option('-f --font-file <file>', `Optional: path of font file (wof, otf, ttf). NOTE: this option is available if --disable-browser option is specified.`);
   program.parse(argv);
 
   return {
