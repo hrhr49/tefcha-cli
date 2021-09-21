@@ -136,4 +136,5 @@ export {
   CommandArguments,
   parseArgs,
   main,
+  DEFAULT_FONT_PATH,
 };
