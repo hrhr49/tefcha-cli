@@ -129,23 +129,17 @@ class SvgRenderer {
     const _attrs = {...attrs, x: (attrs.x || 0)};
     const fontSize = Number(_attrs['font-size']) || 14;
 
-    let minX1 = Infinity,
-      minY1 = Infinity,
-      maxX2 = -Infinity,
-      maxY2 = -Infinity;
+    let maxX2 = -Infinity, height = 0;
 
     text.split(/\\n/).forEach((line, idx) => {
-      const { x1, y1, x2, y2 } = this.font
-        .getPath(line+'\n', 0, idx * fontSize, fontSize)
+      const { x2 } = this.font
+        .getPath(line, 0, idx * fontSize, fontSize)
         .getBoundingBox();
-      minX1 = Math.min(minX1, x1);
-      minY1 = Math.min(minY1, y1);
       maxX2 = Math.max(maxX2, x2);
-      maxY2 = Math.max(maxY2, y2);
+      height += fontSize;
     });
 
-    // console.error({minX1,minY1,maxX2,maxY2});
-    return {w: maxX2 - minX1, h: maxY2 - minY1};
+    return {w: maxX2, h: height};
   }
 
   renderShape = ({
@@ -212,12 +206,12 @@ class SvgRenderer {
       throw 'font-size of text and label should be specified "px" uinit';
     }
 
-    // const {h} = this.measureText(shape.content, attrs);
     const pathList: string[] = [];
 
     shape.content.split(/\\n/).forEach((line, idx) => {
+      const ascenderPx = fontSize * this.font.ascender / ( this.font.ascender - this.font.descender);
       const pathStr = this.font
-        .getPath(line, x, y + (idx + 1) * fontSize, fontSize)
+        .getPath(line, x, y + idx * fontSize + ascenderPx, fontSize)
         .toSVG(2)
         .replace('<path', `<path ${attrsToString(attrs)} `);
       pathList.push(pathStr);
