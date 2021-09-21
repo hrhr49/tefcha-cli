@@ -385,6 +385,10 @@ class OpenTypeSharpRenderer implements BaseRenderer {
     });
   }
 
+  renderSvgSync = (): Buffer => {
+    return Buffer.from(this.svgRenderer.render().toString());
+  }
+
   renderSvg = async (): Promise<Buffer> => {
     return Buffer.from(this.svgRenderer.render().toString());
   }
