@@ -25,12 +25,7 @@ const render = async ({
   });
   try {
     const page = await browser.newPage();
-    const htmlFile = path.join(
-      process.env.NODE_ENV === 'develop'
-      ? `${__dirname}/../bin`
-      : __dirname,
-      'index.html'
-    );
+    const htmlFile = path.resolve(`${__dirname}/../bin`, 'index.html');
     page.setViewport({width: 500, height: 500});
     await page.goto(`file://${htmlFile}`);
     await page.evaluate(`document.body.style.background = '${'white'}'`);

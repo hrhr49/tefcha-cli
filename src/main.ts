@@ -24,12 +24,7 @@ const {
 } = require('../package.json');
 
 const FONT_FILE = 'NotoSansCJKjp-Regular.otf';
-const DEFAULT_FONT_PATH: string = path.join(
-  process.env.NODE_ENV === 'develop'
-  ? `${__dirname}/../bin`
-  : __dirname,
-  FONT_FILE
-);
+const DEFAULT_FONT_PATH: string = path.resolve(`${__dirname}/../fonts/Noto/`, FONT_FILE);
 
 interface CommandArguments {
   inputFile?: string;

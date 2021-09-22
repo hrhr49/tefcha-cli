@@ -158,7 +158,7 @@ test('font file is available only --disable-browser', () => {
   return expect(
     main({
       ...VALID_ARGS,
-      fontFile: './bin/NotoSansCJKjp-Regular.otf',
+      fontFile: './fonts/Noto/NotoSansCJKjp-Regular.otf',
     })
   ).rejects.toMatch('--disable-browser');
 });

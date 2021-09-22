@@ -89,7 +89,7 @@ else
 fi
 
 node bin/cli.js --disable-browser -o tmp/output-tmp.svg test/sample-input.txt \
-&& node bin/cli.js --disable-browser --font-file bin/NotoSansCJKjp-Regular.otf -o tmp/output-tmp.svg test/sample-input.txt
+&& node bin/cli.js --disable-browser --font-file fonts/Noto/NotoSansCJKjp-Regular.otf -o tmp/output-tmp.svg test/sample-input.txt
 if [ "$?" -ne 0 ]; then
   echo 'failed'
   exit 1
